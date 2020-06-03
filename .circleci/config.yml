@@ -1,33 +1,33 @@
-version: 2.1
+version: 2
 jobs:
-
   test:
-    working_directory: ~/IaC
+    working_directory: ~/project
     docker:
       - image: hashicorp/terraform:light
     steps:
       - checkout:
       - run:
-        name: Init terraform
-        command: terraform init ~/IaC
+          name: Init terraform
+          command: terraform init ~/project
       - run:
-        name: Validate terraform
-        command: terraform validate ~/IaC
+          name: Validate terraform
+          command: terraform validate ~/project
       - run:
-        name: Plan terraform
-        command: terraform plan ~/IaC
+          name: Plan terraform
+          command: terraform plan ~/project
 
   deploy:
-    working_directory: ~/IaC
+    working_directory: ~/project
     docker:
       - image: hashicorp/terraform:light
     steps:
       - checkout:
       - run:
-        name: Init terraform
+          name: Init terraform
+          command: terraform init ~/project
       - run:
-        name: Apply terraform
-        command: terraform apply -auto-approve ~/IaC
+          name: Apply terraform
+          command: terraform apply -auto-approve ~/project
 
 workflows:
   version: 2
@@ -42,8 +42,8 @@ workflows:
             branches:
               only: master
       - deploy:
-        requires:
-          - hold
-        filters:
-          branches:
-            only: master
+          requires:
+            - hold
+          filters:
+            branches:
+              only: master
