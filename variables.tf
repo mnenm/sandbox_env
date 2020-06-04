@@ -1,7 +1,3 @@
-variable "region" {
-  default = "ap-northeast-1"
-}
-
 variable "vpc-range" {
   default = "10.0.0.0/16"
 }
@@ -19,5 +15,6 @@ variable "azs" {
 }
 
 locals {
+  region       = "ap-northeast-1"
   product_name = "sandbox"
 }
