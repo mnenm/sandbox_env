@@ -13,6 +13,8 @@ commands:
   terraform_init:
     steps:
       - run:
+          command: apk update; apk add bash
+      - run:
           name: terraform init
           command: terraform init ~/project
 
