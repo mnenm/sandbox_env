@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "aws" {
-  region = var.region
+  region = local.region
 }
 
 data "aws_caller_identity" "my" {}
