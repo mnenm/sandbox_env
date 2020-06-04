@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  aws-cli: circleci/aws-cli@1.0.0
+  slack: circleci/slack@3.4.2
 
 executors:
   terraform:
@@ -26,6 +26,10 @@ jobs:
       - run:
           name: terraform plan
           command: terraform plan ~/project
+      - slack/status:
+          fail_only: true
+          failure_message: ":circleci-fail: テストが失敗しました\n:github_octocat: User:$CIRCLE_USERNAME"
+          webhook: "${SLACK_WEBHOOK}"
 
   deploy:
     executor:
@@ -36,6 +40,10 @@ jobs:
       - run:
           name: terraform apply
           command: terraform apply -auto-approve ~/project
+      - slack/status:
+          success_message: ":circleci-pass: デプロイが完了しました\n:github_octocat: User:$CIRCLE_USERNAME"
+          failure_message: ":circleci-fail: デプロイが失敗しました\n:github_octocat: User:$CIRCLE_USERNAME"
+          webhook: "${SLACK_WEBHOOK}"
 
 workflows:
   test_and_deploy:
