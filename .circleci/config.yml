@@ -43,6 +43,7 @@ jobs:
           name: terraform apply
           command: terraform apply -auto-approve ~/project
       - slack/status:
+          channel: "#sns_test"
           success_message: ":circleci-pass: デプロイが完了しました\n:github_octocat: User:$CIRCLE_USERNAME"
           failure_message: ":circleci-fail: デプロイが失敗しました\n:github_octocat: User:$CIRCLE_USERNAME"
           webhook: "${SLACK_WEBHOOK}"
