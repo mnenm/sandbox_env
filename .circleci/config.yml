@@ -30,8 +30,7 @@ jobs:
           command: terraform plan ~/project
       - slack/status:
           fail_only: true
-          failure_message: ":circleci-fail: テストが失敗しました\n:github_octocat: User:$CIRCLE_USERNAME"
-          webhook: "${SLACK_WEBHOOK}"
+          failure_message: ":ng: テストが失敗しました\n:github: User:$CIRCLE_USERNAME"
 
   deploy:
     executor:
@@ -43,10 +42,8 @@ jobs:
           name: terraform apply
           command: terraform apply -auto-approve ~/project
       - slack/status:
-          channel: "#sns_test"
           success_message: ":ok: デプロイが完了しました\n:github: User:$CIRCLE_USERNAME"
           failure_message: ":ng: デプロイが失敗しました\n:github: User:$CIRCLE_USERNAME"
-          webhook: "${SLACK_WEBHOOK}"
 
 workflows:
   test_and_deploy:
@@ -54,8 +51,8 @@ workflows:
       - test:
           context: aws-settings
       - slack/approval-notification:
-          message: ":circleci: デプロイを承認してください"
-          webhook: "${SLACK_WEBHOOK}"
+          mentions: "naamjp"
+          message: ":circleci: デプロイを承認してください\n:github: User:$CIRCLE_USERNAME"
           requires:
             - test
           filters:
