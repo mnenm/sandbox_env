@@ -48,3 +48,15 @@ resource "aws_route_table_association" "public" {
   subnet_id      = element(aws_subnet.public.*.id, count.index)
   route_table_id = aws_route_table.public.id
 }
+
+resource "aws_subnet" "private" {
+  count = length(var.private-subnets)
+
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = element(var.private-subnets, count.index)
+  availability_zone = element(var.azs, count.index)
+
+  tags = {
+    Name = format("%s-private-subnet-%s", local.product_name, count.index)
+  }
+}
